@@ -1,4 +1,4 @@
-const CACHE_NAME = 'active-brain-v11';
+const CACHE_NAME = 'active-brain-v12';
 const ASSETS = [
   './',
   './index.html',
@@ -6,7 +6,9 @@ const ASSETS = [
   './database.js',
   './app.js',
   './manifest.json',
-  './icon.svg'
+  './icon.svg',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', (e) => {
