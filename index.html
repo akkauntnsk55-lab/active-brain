@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Активный Мозг — Реабилитация и тренировка памяти</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2C3E50">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <!-- Apple mobile support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Активный Мозг">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <button id="back-btn" class="header-btn hidden" aria-label="Назад в меню">🏠 Меню</button>
+      <h1 id="app-title">Активный Мозг</h1>
+      <button id="tts-global-btn" class="header-btn" aria-label="Озвучить экран">🔊 Озвучить</button>
+    </header>
+
+    <!-- Main Dashboard Screen -->
+    <main id="screen-dashboard" class="screen active">
+      <div class="welcome-banner">
+        <h2>Здравствуйте!</h2>
+        <p>Какое упражнение сделаем сегодня? Выберите из списка ниже:</p>
+      </div>
+
+      <div class="exercises-grid">
+        <button class="exercise-card-btn" onclick="startExercise('oddWord')">
+          <span class="card-emoji">🏷️</span>
+          <span class="card-text-container">
+            <span class="card-title">Лишнее слово</span>
+            <span class="card-desc">Какое слово не подходит к остальным?</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('sequence')">
+          <span class="card-emoji">🔢</span>
+          <span class="card-text-container">
+            <span class="card-title">Продолжи ряд</span>
+            <span class="card-desc">Найдите закономерность чисел или фигур</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('letters')">
+          <span class="card-emoji">🔍</span>
+          <span class="card-text-container">
+            <span class="card-title">Найди букву А</span>
+            <span class="card-desc">Посчитайте буквы в строке на внимательность</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('chronology')">
+          <span class="card-emoji">🕒</span>
+          <span class="card-text-container">
+            <span class="card-title">Что было сначала?</span>
+            <span class="card-desc">Расставьте действия в правильном порядке</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('matching')">
+          <span class="card-emoji">🔗</span>
+          <span class="card-text-container">
+            <span class="card-title">Найди пару</span>
+            <span class="card-desc">Подберите действие для предмета</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('math')">
+          <span class="card-emoji">➕</span>
+          <span class="card-text-container">
+            <span class="card-title">Простой счет</span>
+            <span class="card-desc">Решаем простые математические примеры</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('logic')">
+          <span class="card-emoji">💡</span>
+          <span class="card-text-container">
+            <span class="card-title">Вопросы на логику</span>
+            <span class="card-desc">Интересные вопросы и загадки для ума</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('wordMemory')">
+          <span class="card-emoji">🧠</span>
+          <span class="card-text-container">
+            <span class="card-title">Запомни слова</span>
+            <span class="card-desc">Тренируем запоминание группы слов</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('schulte')">
+          <span class="card-emoji">📊</span>
+          <span class="card-text-container">
+            <span class="card-title">Таблица Шульте</span>
+            <span class="card-desc">Найдите числа от 1 до 25 по порядку</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('memoryGrid')">
+          <span class="card-emoji">🟩</span>
+          <span class="card-text-container">
+            <span class="card-title">Световая память</span>
+            <span class="card-desc">Запомните и повторите светящиеся ячейки</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('categorySorting')">
+          <span class="card-emoji">🗂️</span>
+          <span class="card-text-container">
+            <span class="card-title">Сортировка слов</span>
+            <span class="card-desc">Распределите слова по трем категориям</span>
+          </span>
+        </button>
+
+        <button class="exercise-card-btn" onclick="startExercise('textComprehension')">
+          <span class="card-emoji">📖</span>
+          <span class="card-text-container">
+            <span class="card-title">Чтение и понимание</span>
+            <span class="card-desc">Прочитайте короткий текст и ответьте на вопросы</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Settings Button -->
+      <div style="display: flex; justify-content: center; margin: 32px 0 16px 0;">
+        <button id="open-settings-btn" class="secondary-btn" style="font-size: 20px; padding: 12px 28px; font-weight: bold; border-width: 3px;" onclick="openSettings()">⚙️ Настройки сложности</button>
+      </div>
+
+      <!-- Daily Progress Section -->
+      <section class="progress-section">
+        <h3>Ваши успехи сегодня</h3>
+        <div class="today-counter">
+          Выполнено упражнений: <strong id="completed-count">0</strong>
+        </div>
+        <div class="achievements-row" id="achievements-container">
+          <!-- Calendar checkboxes filled dynamically -->
+        </div>
+        <button id="reset-progress-btn" class="secondary-btn">Сбросить статистику</button>
+      </section>
+
+      <!-- Install PWA prompt -->
+      <div id="install-banner" class="install-banner hidden">
+        <p>Установить приложение на главный экран для быстрого доступа?</p>
+        <button id="install-btn" class="primary-btn">Установить</button>
+      </div>
+    </main>
+
+    <!-- Active Exercise Screen -->
+    <main id="screen-exercise" class="screen hidden">
+      <div class="exercise-container">
+        <!-- Instruction -->
+        <div class="instruction-box">
+          <button id="tts-instruction-btn" class="tts-btn-icon" aria-label="Озвучить инструкцию">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+          </button>
+          <div id="exercise-instruction" class="instruction-text">Инструкция...</div>
+        </div>
+
+        <!-- Question panel -->
+        <div class="question-box">
+          <div id="exercise-question-text" class="question-text">Вопрос...</div>
+        </div>
+
+        <!-- Main Workspace Area (Dynamic Content depending on exercise type) -->
+        <div id="exercise-workspace" class="workspace">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Feedback Box -->
+        <div id="feedback-box" class="feedback-box hidden">
+          <div class="feedback-header">
+            <button id="tts-feedback-btn" class="tts-btn-icon" aria-label="Озвучить результат">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+            </button>
+            <div id="feedback-icon" class="feedback-icon"></div>
+          </div>
+          <div id="feedback-text" class="feedback-text">Правильно!</div>
+          <div id="feedback-subtext" class="feedback-subtext">Объяснение...</div>
+        </div>
+
+        <!-- Controls -->
+        <div class="exercise-controls">
+          <button id="next-question-btn" class="primary-btn hidden">Дальше</button>
+          <button id="finish-exercise-btn" class="primary-btn hidden">Завершить</button>
+        </div>
+
+        <!-- Progress Indicator -->
+        <footer class="exercise-footer">
+          <div class="progress-bar-container">
+            <div id="progress-bar-fill" class="progress-bar-fill"></div>
+          </div>
+          <div id="progress-text" class="progress-text">Вопрос 1 из 5</div>
+        </footer>
+      </div>
+    </main>
+
+    <!-- Success Screen (after finishing an exercise) -->
+    <main id="screen-success" class="screen hidden">
+      <div class="success-container">
+        <div class="success-badge">🎉</div>
+        <h2>Отличная работа!</h2>
+        <p id="success-message">Вы успешно завершили упражнение.</p>
+        
+        <div class="score-summary">
+          Правильных ответов: <strong id="success-correct">0</strong> из <strong id="success-total">0</strong>
+        </div>
+
+        <button onclick="goToDashboard()" class="primary-btn btn-large">Вернуться в меню</button>
+      </div>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal hidden">
+      <div class="modal-content">
+        <h2 style="font-size: 28px; margin-bottom: 5px;">⚙️ Настройки</h2>
+        
+        <div class="settings-group">
+          <label for="settings-word-count" style="font-size: 22px; font-weight: bold; display: block; margin-bottom: 4px;">Запомни слова</label>
+          <span class="settings-sub" style="font-size: 16px; color: var(--text-secondary); display: block; margin-bottom: 8px;">Количество слов для запоминания:</span>
+          <select id="settings-word-count" class="settings-select" style="width: 100%; box-sizing: border-box;">
+            <option value="3">3 слова (Простой)</option>
+            <option value="4" selected>4 слова (Стандартный)</option>
+            <option value="5">5 слов (Продвинутый)</option>
+            <option value="6">6 слов (Сложный)</option>
+          </select>
+        </div>
+        
+        <button class="primary-btn btn-large" onclick="closeSettings()" style="margin-top: 15px;">Сохранить и закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="database.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

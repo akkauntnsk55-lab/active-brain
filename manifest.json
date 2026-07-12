@@ -1,0 +1,17 @@
+{
+  "name": "Активный Мозг",
+  "short_name": "Активный Мозг",
+  "description": "Приложение для тренировки памяти и когнитивных навыков после инсульта",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#FAF6EE",
+  "theme_color": "#2C3E50",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

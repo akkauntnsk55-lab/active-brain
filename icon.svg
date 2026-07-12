@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="100%" height="100%" fill="#2C3E50" rx="128"/>
+  <!-- Decorative glowing brain background -->
+  <circle cx="256" cy="256" r="160" fill="#FAF6EE" opacity="0.1"/>
+  <!-- Scaled Brain Outline -->
+  <g fill="#FAF6EE">
+    <!-- Left Hemisphere lobes -->
+    <path d="M240,160 C190,160 150,190 150,240 C150,260 160,280 175,295 C160,310 150,330 150,350 C150,390 190,410 240,410 C245,410 250,409 256,408 C256,360 256,160 240,160 Z" />
+    <!-- Right Hemisphere lobes -->
+    <path d="M272,160 C322,160 362,190 362,240 C362,260 352,280 337,295 C352,310 362,330 362,350 C362,390 322,410 272,410 C267,410 262,409 256,408 C256,360 256,160 272,160 Z" opacity="0.9" />
+    <!-- Inner brain details -->
+    <circle cx="210" cy="220" r="12" fill="#2C3E50" />
+    <circle cx="302" cy="220" r="12" fill="#2C3E50" />
+    <circle cx="200" cy="300" r="15" fill="#2C3E50" />
+    <circle cx="312" cy="300" r="15" fill="#2C3E50" />
+    <circle cx="215" cy="360" r="10" fill="#2C3E50" />
+    <circle cx="297" cy="360" r="10" fill="#2C3E50" />
+  </g>
+  <!-- Text symbol overlay -->
+  <text x="256" y="275" font-family="Arial, sans-serif" font-weight="bold" font-size="52" fill="#2C3E50" text-anchor="middle">🧠</text>
+</svg>
