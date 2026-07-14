@@ -1245,13 +1245,7 @@ function goToDashboard() {
 }
 
 function confirmExitToDashboard() {
-  if (screenExercise.classList.contains('active')) {
-    if (confirm("Вы хотите прервать упражнение и вернуться в меню?")) {
-      goToDashboard();
-    }
-  } else {
-    goToDashboard();
-  }
+  goToDashboard();
 }
 
 function showScreen(screenToShow) {
