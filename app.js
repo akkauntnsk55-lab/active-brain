@@ -305,6 +305,9 @@ function startExercise(type) {
 }
 
 function loadQuestion() {
+  // Reset scroll to top
+  window.scrollTo(0, 0);
+
   // Cancel any active speech when loading a new question
   if ('speechSynthesis' in window) {
     window.speechSynthesis.cancel();
@@ -1249,6 +1252,9 @@ function confirmExitToDashboard() {
 }
 
 function showScreen(screenToShow) {
+  // Reset scroll to top
+  window.scrollTo(0, 0);
+
   [screenDashboard, screenExercise, screenSuccess].forEach(screen => {
     screen.classList.remove('active');
     screen.classList.add('hidden');
