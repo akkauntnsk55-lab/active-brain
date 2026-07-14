@@ -874,3 +874,152 @@ button:focus-visible {
 .settings-select:focus {
   border-color: var(--accent-color);
 }
+
+/* Word Sorting (Category Sorting) Styles */
+.sorting-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.sorting-category-card {
+  background-color: var(--card-bg);
+  border: 3px solid var(--border-color);
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.sorting-category-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 6px;
+}
+
+.sorting-category-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.sorting-item-badge {
+  font-size: 22px;
+  font-weight: bold;
+  padding: 8px 16px;
+  background-color: var(--bg-color);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s, background-color 0.2s;
+}
+
+.sorting-item-badge:hover {
+  background-color: var(--border-color);
+}
+
+.sorting-item-badge.selected {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  background-color: rgba(37, 99, 235, 0.05);
+}
+
+.sorting-item-badge.correct {
+  background-color: var(--success-bg) !important;
+  border-color: var(--success-color) !important;
+  color: var(--success-color) !important;
+}
+
+.sorting-item-badge.wrong {
+  background-color: var(--error-bg) !important;
+  border-color: var(--error-color) !important;
+  color: var(--error-color) !important;
+  text-decoration: line-through;
+}
+
+.sorting-pool-section {
+  background-color: #F8FAFC;
+  border: 3px dashed var(--border-color);
+  border-radius: 20px;
+  padding: 16px;
+}
+
+.sorting-pool-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.sorting-pool-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  min-height: 50px;
+}
+
+.sorting-assignment-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--card-bg);
+  border: 3px solid var(--accent-color);
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  animation: slideUp 0.2s ease-out;
+}
+
+.sorting-assignment-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.sorting-assignment-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.sorting-assign-btn {
+  flex: 1;
+  background-color: var(--accent-color);
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: filter 0.2s;
+  min-height: 60px;
+}
+
+.sorting-assign-btn:active {
+  filter: brightness(0.9);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

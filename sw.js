@@ -1,4 +1,4 @@
-const CACHE_NAME = 'active-brain-v14';
+const CACHE_NAME = 'active-brain-v15';
 const ASSETS = [
   './',
   './index.html',

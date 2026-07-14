@@ -334,7 +334,7 @@ function loadQuestion() {
   // Set up question and instruction depending on mode
   if (currentState.currentExerciseType === 'categorySorting') {
     exerciseInstruction.textContent = qData.instruction;
-    exerciseQuestionText.textContent = qData.word;
+    exerciseQuestionText.textContent = qData.question;
     exerciseQuestionText.parentElement.classList.remove('hidden');
   } else if (currentState.currentExerciseType === 'textComprehension') {
     // For textComprehension, instruction changes dynamically based on phase
@@ -1206,39 +1206,184 @@ function clickMemoryGridCell(cell, idx, cells, qData) {
 
 // Category Sorting Workspace
 function setupCategorySortingWorkspace(qData) {
-  // Show 3 large category buttons
-  const categories = ["Продукты", "Одежда", "Мебель"];
-  
-  categories.forEach(category => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.innerHTML = `<span class="option-bullet"></span><span style="flex-grow:1;">${category}</span>`;
-    btn.onclick = () => selectCategoryAnswer(btn, category, qData);
-    exerciseWorkspace.appendChild(btn);
+  // Initialize state for sorting
+  currentState.sortingPool = shuffleArray([...qData.items]);
+  currentState.sortingAssignments = {};
+  qData.categories.forEach(cat => {
+    currentState.sortingAssignments[cat] = [];
   });
+  currentState.selectedSortingWord = null;
+  currentState.sortingChecked = false;
+
+  renderSortingWorkspace(qData);
 }
 
-function selectCategoryAnswer(clickedBtn, selectedCategory, qData) {
-  const btns = exerciseWorkspace.querySelectorAll('.option-btn');
-  btns.forEach(btn => btn.disabled = true);
-  
-  const isCorrect = (selectedCategory === qData.correct);
-  
-  if (isCorrect) {
-    clickedBtn.classList.add('correct');
-    currentState.correctCount++;
-    showFeedback(true, "Правильно!", qData.explanation);
+function renderSortingWorkspace(qData) {
+  exerciseWorkspace.innerHTML = '';
+
+  const container = document.createElement('div');
+  container.className = 'sorting-container';
+
+  // 1. Render Category Cards
+  qData.categories.forEach(cat => {
+    const card = document.createElement('div');
+    card.className = 'sorting-category-card';
+
+    const title = document.createElement('div');
+    title.className = 'sorting-category-title';
+    title.textContent = cat;
+    card.appendChild(title);
+
+    const itemsDiv = document.createElement('div');
+    itemsDiv.className = 'sorting-category-items';
+
+    const assigned = currentState.sortingAssignments[cat] || [];
+    if (assigned.length === 0 && !currentState.sortingChecked) {
+      const placeholder = document.createElement('span');
+      placeholder.style.fontSize = '20px';
+      placeholder.style.color = 'var(--text-secondary)';
+      placeholder.style.fontStyle = 'italic';
+      placeholder.textContent = 'Пусто. Выберите слово ниже...';
+      itemsDiv.appendChild(placeholder);
+    } else {
+      assigned.forEach(item => {
+        const badge = document.createElement('div');
+        badge.className = 'sorting-item-badge';
+        badge.textContent = item.word;
+
+        if (currentState.sortingChecked) {
+          const isCorrect = (item.category === cat);
+          badge.className = 'sorting-item-badge ' + (isCorrect ? 'correct' : 'wrong');
+        } else {
+          badge.onclick = () => moveItemBackToPool(item, cat, qData);
+        }
+        itemsDiv.appendChild(badge);
+      });
+    }
+
+    card.appendChild(itemsDiv);
+    container.appendChild(card);
+  });
+
+  // 2. Render Pool Section
+  if (currentState.sortingPool.length > 0) {
+    const poolSection = document.createElement('div');
+    poolSection.className = 'sorting-pool-section';
+
+    const poolTitle = document.createElement('div');
+    poolTitle.className = 'sorting-pool-title';
+    poolTitle.textContent = 'Слова для распределения (нажмите для выбора):';
+    poolSection.appendChild(poolTitle);
+
+    const poolWordsDiv = document.createElement('div');
+    poolWordsDiv.className = 'sorting-pool-words';
+
+    currentState.sortingPool.forEach(item => {
+      const badge = document.createElement('div');
+      badge.className = 'sorting-item-badge';
+      if (item.word === currentState.selectedSortingWord) {
+        badge.classList.add('selected');
+      }
+      badge.textContent = item.word;
+      badge.onclick = () => selectPoolWord(item.word, qData);
+      poolWordsDiv.appendChild(badge);
+    });
+
+    poolSection.appendChild(poolWordsDiv);
+    container.appendChild(poolSection);
+  }
+
+  // 3. Render Assignment Panel if a word is selected
+  if (currentState.selectedSortingWord && !currentState.sortingChecked) {
+    const assignPanel = document.createElement('div');
+    assignPanel.className = 'sorting-assignment-panel';
+
+    const panelTitle = document.createElement('div');
+    panelTitle.className = 'sorting-assignment-title';
+    panelTitle.textContent = `Куда распределить слово «${currentState.selectedSortingWord}»?`;
+    assignPanel.appendChild(panelTitle);
+
+    const btnContainer = document.createElement('div');
+    btnContainer.className = 'sorting-assignment-buttons';
+
+    qData.categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'sorting-assign-btn';
+      btn.textContent = cat;
+      btn.onclick = () => assignWord(cat, qData);
+      btnContainer.appendChild(btn);
+    });
+
+    assignPanel.appendChild(btnContainer);
+    container.appendChild(assignPanel);
+  }
+
+  // 4. Render Verify Check Button
+  if (currentState.sortingPool.length === 0 && !currentState.sortingChecked) {
+    const checkBtn = document.createElement('button');
+    checkBtn.className = 'primary-btn';
+    checkBtn.style.marginTop = '10px';
+    checkBtn.textContent = 'Проверить сортировку';
+    checkBtn.onclick = () => checkSortingAnswers(qData);
+    container.appendChild(checkBtn);
+  }
+
+  exerciseWorkspace.appendChild(container);
+}
+
+function selectPoolWord(word, qData) {
+  if (currentState.sortingChecked) return;
+  if (currentState.selectedSortingWord === word) {
+    currentState.selectedSortingWord = null;
   } else {
-    clickedBtn.classList.add('wrong');
-    // Highlight correct answer
-    btns.forEach(btn => {
-      if (btn.textContent.trim() === qData.correct) {
-        btn.classList.add('correct');
+    currentState.selectedSortingWord = word;
+  }
+  renderSortingWorkspace(qData);
+}
+
+function assignWord(chosenCategory, qData) {
+  if (currentState.sortingChecked) return;
+  const selectedItemIndex = currentState.sortingPool.findIndex(i => i.word === currentState.selectedSortingWord);
+  if (selectedItemIndex !== -1) {
+    const itemObj = currentState.sortingPool.splice(selectedItemIndex, 1)[0];
+    currentState.sortingAssignments[chosenCategory].push(itemObj);
+    currentState.selectedSortingWord = null;
+    renderSortingWorkspace(qData);
+  }
+}
+
+function moveItemBackToPool(item, category, qData) {
+  if (currentState.sortingChecked) return;
+  const idx = currentState.sortingAssignments[category].indexOf(item);
+  if (idx !== -1) {
+    currentState.sortingAssignments[category].splice(idx, 1);
+    currentState.sortingPool.push(item);
+    currentState.selectedSortingWord = null;
+    renderSortingWorkspace(qData);
+  }
+}
+
+function checkSortingAnswers(qData) {
+  currentState.sortingChecked = true;
+
+  // Verify correctness
+  let allCorrect = true;
+  qData.categories.forEach(cat => {
+    currentState.sortingAssignments[cat].forEach(item => {
+      if (item.category !== cat) {
+        allCorrect = false;
       }
     });
-    showFeedback(false, "Не совсем верно.", qData.explanation);
+  });
+
+  if (allCorrect) {
+    currentState.correctCount++;
+    showFeedback(true, "Отлично! Все слова распределены абсолютно верно.", qData.explanation);
+  } else {
+    showFeedback(false, "Некоторые слова распределены неверно.", qData.explanation);
   }
-  
+
+  renderSortingWorkspace(qData);
   showControlButtons();
 }
 
